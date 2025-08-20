@@ -1424,7 +1424,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Sprite_Mario_53
+      name: Sprite_Mario_JumpAttack_01
       rect:
         serializedVersion: 2
         x: 185
@@ -1446,7 +1446,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Sprite_Mario_54
+      name: Sprite_Mario_JumpAttack_02
       rect:
         serializedVersion: 2
         x: 218
@@ -1468,7 +1468,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Sprite_Mario_55
+      name: Sprite_Mario_JumpAttack_03
       rect:
         serializedVersion: 2
         x: 253
@@ -1490,7 +1490,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Sprite_Mario_56
+      name: Sprite_Mario_JumpAttack_04
       rect:
         serializedVersion: 2
         x: 286
@@ -1534,7 +1534,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Sprite_Mario_58
+      name: Sprite_Mario_JumpAttack_05
       rect:
         serializedVersion: 2
         x: 345
@@ -1660,12 +1660,7 @@ TextureImporter:
       Sprite_Mario_50: -5021473000565013323
       Sprite_Mario_51: -3917910848853407703
       Sprite_Mario_52: 2024578721505582386
-      Sprite_Mario_53: -991126873710766664
-      Sprite_Mario_54: -2451452407061476743
-      Sprite_Mario_55: -9079682761693699110
-      Sprite_Mario_56: 102199271187479275
       Sprite_Mario_57: 4596178438584576817
-      Sprite_Mario_58: -223910129502012368
       Sprite_Mario_59: -7734174553045002093
       Sprite_Mario_6: 5693412132100505836
       Sprite_Mario_60: 1622122130505264950
@@ -1680,6 +1675,11 @@ TextureImporter:
       Sprite_Mario_Idle: -1571305052
       Sprite_Mario_Idle_Shell: 1554904934580016266
       Sprite_Mario_Jump: -5672653749854861051
+      Sprite_Mario_JumpAttack_01: -991126873710766664
+      Sprite_Mario_JumpAttack_02: -2451452407061476743
+      Sprite_Mario_JumpAttack_03: -9079682761693699110
+      Sprite_Mario_JumpAttack_04: 102199271187479275
+      Sprite_Mario_JumpAttack_05: -223910129502012368
       Sprite_Mario_Ladder_Back01: -7562379391476108956
       Sprite_Mario_Ladder_Back02: 3014445400692401966
       Sprite_Mario_Ladder_Front01: -6005365102188713975

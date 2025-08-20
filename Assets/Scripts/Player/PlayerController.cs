@@ -1,11 +1,35 @@
-
+using JetBrains.Annotations;
 using UnityEngine;
+using UnityEngine.SocialPlatforms.Impl;
 
 
 [RequireComponent(typeof(Rigidbody2D), typeof(SpriteRenderer), typeof(Collider2D))]
 [RequireComponent(typeof(Animator))]
 public class PlayerScript : MonoBehaviour
 {
+
+    private int score = 0;
+    private int lives = 3;
+
+    public int GetLives () { return lives; }
+    public void SetLives (int value)
+    {
+        if (value < 0)
+        {
+            lives = 0;
+        }
+        else if (value > maxLives)
+        {
+            lives = maxLives;
+        }
+        else
+        {
+                       lives = value;
+        }
+    }
+
+        public int maxLives = 9;
+
     //private Transform groundCheckPos;//
     [SerializeField] private float groundCheckRadius = 0.02f; // Radius for ground check
 
@@ -51,49 +75,53 @@ public class PlayerScript : MonoBehaviour
         float hValue = Input.GetAxis("Horizontal");
         AnimatorStateInfo currentState = anim.GetCurrentAnimatorStateInfo(0);
         SpriteFlip(hValue);
-        //isGrounded = Physics2D.OverlapCircle(groundCheckPos, groundCheckRadius, groundLayer);
 
-        bool isCrouching = vValue < 0;
+        // Hold S to crouch, release S to stand
+        bool isCrouching = Input.GetKey(KeyCode.S) && groundCheck.IsGrounded;
         float moveSpeed = isCrouching ? 0f : 5f;
         rb.linearVelocityX = hValue * moveSpeed;
         groundCheck.CheckIsGrounded();
 
-        if (!currentState.IsName("Fire") && (Input.GetButtonDown("Fire1")))
+        if (!currentState.IsName("Fire") && Input.GetButtonDown("Fire1"))
         {
             anim.SetTrigger("Fire");
         }
-        if (currentState.IsName("Fire"))
+        else if (currentState.IsName("Fire"))
         {
-            rb.linearVelocity = Vector2.zero;   
+            rb.linearVelocity = Vector2.zero;
         }
-       
-        
-        if (!isCrouching && Input.GetButtonDown("Jump") && jumpCount < maxJumpCount)
+         if (currentState.IsName("Jump") && Input.GetButton("Fire2") && vValue > 0.1)
         {
-            rb.AddForce(Vector2.up * 5f, ForceMode2D.Impulse);
+            anim.SetTrigger("JumpAttack");
+        }
+
+        if (Input.GetButtonDown("Jump") && jumpCount < maxJumpCount)
+        {
+            rb.AddForce(Vector2.up * 7f, ForceMode2D.Impulse);
             jumpCount++;
             Debug.Log("jumpCout: " + jumpCount);
         }
-        
-        
         if (groundCheck.IsGrounded)
             jumpCount = 1;
 
-    
+        // Set crouch/stand triggers based on S key
+        if (isCrouching && !currentState.IsName("Crouch"))
+        {
+            anim.SetTrigger("Crouch");
+        }
+        else if (!isCrouching && currentState.IsName("Crouch"))
+        {
+            anim.SetTrigger("Stand");
+        }
 
-            // Update the animator parameters
-            anim.SetFloat("hValue", Mathf.Abs(hValue));
+        // Update the animator parameters
+        anim.SetFloat("hValue", Mathf.Abs(hValue));
         anim.SetBool("isGrounded", groundCheck.IsGrounded);
         anim.SetFloat("vValue", Mathf.Abs(vValue));
-        anim.SetBool("isCrouching", vValue < 0);
-        Debug.Log ($"Ground Check Radius from Player Object: {groundCheckRadius}");
+        anim.SetBool("isCrouching", isCrouching);
+        Debug.Log($"Ground Check Radius from Player Object: {groundCheckRadius}");
         if (initialGroundCheckRadius != groundCheckRadius)
             groundCheck.UpdateGroundCheckRadius(groundCheckRadius);
-
-
-
-
-
     }
 
     void SpriteFlip(float hValue)
