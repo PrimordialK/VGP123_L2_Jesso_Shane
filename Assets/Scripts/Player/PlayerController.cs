@@ -1,11 +1,11 @@
-using JetBrains.Annotations;
+
 using UnityEngine;
-using UnityEngine.SocialPlatforms.Impl;
+
 
 
 [RequireComponent(typeof(Rigidbody2D), typeof(SpriteRenderer), typeof(Collider2D))]
 [RequireComponent(typeof(Animator))]
-public class PlayerScript : MonoBehaviour
+public class PlayerController : MonoBehaviour
 {
 
     private int score = 0;
