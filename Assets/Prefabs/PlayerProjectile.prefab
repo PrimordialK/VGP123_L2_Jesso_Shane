@@ -130,6 +130,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   lifetime: 1
+  ignoreTags:
+  - Colliders
 --- !u!58 &8760658433866742736
 CircleCollider2D:
   m_ObjectHideFlags: 0
