@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 2983673156104677535}
   - component: {fileID: 1679739816155233258}
   - component: {fileID: 8760658433866742736}
+  - component: {fileID: 1600266799486870251}
   m_Layer: 8
   m_Name: PlayerProjectile
   m_TagString: Untagged
@@ -129,6 +130,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6d7fa7199671fc449a4447cf7562a146, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  projectileType: 0
+  gravityScale: 1
   lifetime: 1
   ignoreTags:
   - Colliders
@@ -168,3 +171,25 @@ CircleCollider2D:
   m_CompositeOrder: 0
   m_Offset: {x: -0.009837128, y: 0.00000015089783}
   m_Radius: 0.5242939
+--- !u!95 &1600266799486870251
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3462725131738090791}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 0}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0

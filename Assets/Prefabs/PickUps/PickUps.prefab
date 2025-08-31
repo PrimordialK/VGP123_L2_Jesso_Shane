@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 3059480685221161664}
   - component: {fileID: 4128145681116715852}
   m_Layer: 10
-  m_Name: Power-Up
+  m_Name: PickUps
   m_TagString: PowerUps
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -153,7 +153,7 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 7
+  m_Constraints: 4
 --- !u!114 &3059480685221161664
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -166,6 +166,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c7fae3bbcd090134181b330ffdc9a3cb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  pickUpType: 1
 --- !u!114 &4128145681116715852
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -178,12 +179,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 09700f70c417fff4db36254a932e76ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  powerUpPrefabs:
-  - {fileID: 5108436040950913588, guid: f81a5e4ec7f8c794d880830fc4c85ff0, type: 3}
-  - {fileID: 5108436040950913588, guid: ed5543b6f8c1747429524b4c19fde360, type: 3}
-  - {fileID: 5108436040950913588, guid: a618b1d35104c544a86ca0b785cddeee, type: 3}
-  - {fileID: 5108436040950913588, guid: 3bd7ebc0923757c41a7deb5adaeb22bc, type: 3}
-  - {fileID: 5108436040950913588, guid: 58fad12ae5f45504f9fb6806434c9e8e, type: 3}
+  pickUps: []
   spawnPoints:
   - {fileID: 0}
   - {fileID: 0}

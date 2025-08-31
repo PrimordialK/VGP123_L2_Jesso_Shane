@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 2663283474995249226}
   - component: {fileID: 2644450363810288989}
   m_Layer: 10
-  m_Name: Power-Up Star
+  m_Name: Coin
   m_TagString: PowerUps
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -79,7 +79,7 @@ SpriteRenderer:
   m_SortingLayerID: 273138161
   m_SortingLayer: 1
   m_SortingOrder: 0
-  m_Sprite: {fileID: -75086078791266783, guid: 57a53c90fac5bfa4990bc2e82a711d0f, type: 3}
+  m_Sprite: {fileID: -6223913005026926526, guid: 1eee6f798842b844d8ed142c7dad041f, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -134,7 +134,7 @@ Rigidbody2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5108436040950913588}
-  m_BodyType: 2
+  m_BodyType: 0
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
@@ -152,7 +152,7 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 0
+  m_Constraints: 4
 --- !u!114 &2644450363810288989
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -165,3 +165,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c7fae3bbcd090134181b330ffdc9a3cb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  pickUpType: 2

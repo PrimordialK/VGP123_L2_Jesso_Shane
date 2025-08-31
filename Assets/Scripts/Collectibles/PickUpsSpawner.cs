@@ -1,9 +1,9 @@
 using UnityEngine;
 
-public class PowerUpSpawner : MonoBehaviour
+public class PickUpsSpawner : MonoBehaviour
 {
     [Header("Assign your power-up prefabs here")]
-    public GameObject[] powerUpPrefabs;
+    public GameObject[] pickUps;
 
     [Header("Assign your spawn points here")]
     public Transform[] spawnPoints;
@@ -29,11 +29,11 @@ public class PowerUpSpawner : MonoBehaviour
         // Spawn at unique spots
         for (int i = 0; i < spawnCount; i++)
         {
-            int powerUpIndex = Random.Range(0, powerUpPrefabs.Length);
+            int pickUpIndex = Random.Range(0, pickUps.Length);
             int spawnPointIndex = indices[i];
 
             Instantiate(
-                powerUpPrefabs[powerUpIndex],
+                pickUps[pickUpIndex],
                 spawnPoints[spawnPointIndex].position,
                 Quaternion.identity
             );
@@ -43,14 +43,14 @@ public class PowerUpSpawner : MonoBehaviour
     // Call this to spawn a random power-up at a random spawn point
     public void SpawnRandomPowerUp()
     {
-        if (powerUpPrefabs.Length == 0 || spawnPoints.Length == 0)
+        if (pickUps.Length == 0 || spawnPoints.Length == 0)
             return;
 
-        int powerUpIndex = Random.Range(0, powerUpPrefabs.Length);
+        int pickUpIndex = Random.Range(0, pickUps.Length);
         int spawnPointIndex = Random.Range(0, spawnPoints.Length);
 
         Instantiate(
-            powerUpPrefabs[powerUpIndex],
+            pickUps[pickUpIndex],
             spawnPoints[spawnPointIndex].position,
             Quaternion.identity
         );

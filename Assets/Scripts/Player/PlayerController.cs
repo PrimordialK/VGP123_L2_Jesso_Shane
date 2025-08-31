@@ -1,5 +1,6 @@
 
 using UnityEngine;
+using System.Collections;
 
 
 
@@ -8,34 +9,79 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
 
-    private int score = 0;
-    private int lives = 3;
+    private int _score = 0;
+    private int _lives = 3;
+    private float jumpForce = 6f;
 
-    public int GetLives () { return lives; }
-    public void SetLives (int value)
+    private Coroutine jumpForceChange = null;
+    public void ActivateJumpForceChange()
     {
-        if (value < 0)
+        //start  couroutine to change jump force for 5 seconds
+        if (jumpForceChange != null)
         {
-            lives = 0;
+            StopCoroutine(jumpForceChange);
+            jumpForceChange = null;
+            jumpForce = 6f; // Reset to default before starting again
         }
-        else if (value > maxLives)
+        jumpForceChange = StartCoroutine(JumpForceChangeRoutine());
+
+    }
+    private IEnumerator JumpForceChangeRoutine()
+    {
+        jumpForce = 12f;
+        Debug.Log($"Jump Force changed to {jumpForce} at {Time.time}");
+        yield return new WaitForSeconds(5f);
+        jumpForce = 6f;
+        Debug.Log($"Jump Force changed to {jumpForce} at {Time.time}");
+        jumpForceChange = null;
+    }
+    public int score
+    {
+        get => _score;
+
+        set
         {
-            lives = maxLives;
+            if (value < 0)
+            {
+                _score = 0;
+            }
+            else
+            {
+                _score = value;
+            }
         }
-        else
+    }
+
+    public int lives
+    {
+        get => _lives;
+        set
         {
-                       lives = value;
+            if (value < 0)
+            {
+                Debug.Log("Game Over");
+                _lives = 0;
+            }
+            else if (value > maxLives)
+            {
+                _lives = maxLives;
+            }
+            else
+            {
+                _lives = value;
+            }
         }
     }
 
         public int maxLives = 9;
+   
 
     //private Transform groundCheckPos;//
     [SerializeField] private float groundCheckRadius = 0.02f; // Radius for ground check
 
    // [SerializeField] private bool isGrounded = false;
     private LayerMask groundLayer;
-
+    public Transform playerTransform;
     private Rigidbody2D rb;
     private SpriteRenderer sr;
     private Collider2D col;
@@ -56,6 +102,7 @@ public class PlayerController : MonoBehaviour
         sr = GetComponent<SpriteRenderer>();
         col = GetComponent<Collider2D>();
         anim = GetComponent<Animator>();
+        playerTransform = GetComponent<Transform>();
         groundCheck = new GroundCheck(col, LayerMask.GetMask("Ground"), groundCheckRadius);
 
         groundLayer = LayerMask.GetMask("Ground");
@@ -97,7 +144,7 @@ public class PlayerController : MonoBehaviour
 
         if (Input.GetButtonDown("Jump") && jumpCount < maxJumpCount)
         {
-            rb.AddForce(Vector2.up * 7f, ForceMode2D.Impulse);
+            rb.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
             jumpCount++;
             Debug.Log("jumpCout: " + jumpCount);
         }
@@ -119,9 +166,17 @@ public class PlayerController : MonoBehaviour
         anim.SetBool("isGrounded", groundCheck.IsGrounded);
         anim.SetFloat("vValue", Mathf.Abs(vValue));
         anim.SetBool("isCrouching", isCrouching);
-        Debug.Log($"Ground Check Radius from Player Object: {groundCheckRadius}");
+        
         if (initialGroundCheckRadius != groundCheckRadius)
             groundCheck.UpdateGroundCheckRadius(groundCheckRadius);
+
+    }
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.CompareTag("Barriers")) // corrected: Barriers
+        {
+            Physics2D.IgnoreCollision(col, collision.collider);
+        }
     }
 
     void SpriteFlip(float hValue)
@@ -145,10 +200,7 @@ public class PlayerController : MonoBehaviour
     //     else if (isGrounded) isGrounded = Physics2D.OverlapCircle(groundCheckPos, groundCheckRadius, groundLayer);
     //}
 
-    private void OnCollisionEnter2D(Collision2D collision)
-    {
-        
-    }
+   
 
     private void OnCollisionExit2D(Collision2D collision)
     {
@@ -159,4 +211,17 @@ public class PlayerController : MonoBehaviour
     {
         
     }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.CompareTag("Squish") && rb.linearVelocityY < 0)
+        {
+            collision.GetComponentInParent<Enemy>().TakeDamage(0, DamageType.JumpedOn);
+            rb.linearVelocity = Vector2.zero;
+            rb.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
+
+        }
+    }
+
 }
+

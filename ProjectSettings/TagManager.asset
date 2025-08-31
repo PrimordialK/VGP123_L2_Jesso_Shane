@@ -6,6 +6,10 @@ TagManager:
   tags:
   - Colliders
   - PowerUps
+  - Edge
+  - Enemy
+  - Barriers
+  - Squish
   layers:
   - Default
   - TransparentFX
@@ -17,7 +21,7 @@ TagManager:
   - Enemy
   - PlayerEffects
   - EnemyEffects
-  - PowerUps
+  - PickUps
   - 
   - 
   - 
