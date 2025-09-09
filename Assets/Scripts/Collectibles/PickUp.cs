@@ -3,13 +3,13 @@ using UnityEngine;
 public abstract class PickUp : MonoBehaviour
 {
 
-    abstract public void OnPickUp(GameObject player);
+    abstract public void OnPickUp();
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     public virtual void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.gameObject.CompareTag("Player"))
         {
-            OnPickUp(collision.gameObject);
+            OnPickUp();
             Destroy(gameObject); // Destroy the power-up on collision with the player
         }
     }
@@ -18,7 +18,7 @@ public abstract class PickUp : MonoBehaviour
     {
         if (collision.CompareTag("Player"))
         {
-            OnPickUp(collision.gameObject);
+            OnPickUp();
                 Destroy(gameObject); // Destroy the power-up on collision with the player
         }
     }

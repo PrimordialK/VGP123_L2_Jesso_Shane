@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 469144252172525548}
   - component: {fileID: 2663283474995249226}
   - component: {fileID: 8370231233360175069}
+  - component: {fileID: 4533034296999286203}
   m_Layer: 10
   m_Name: Life Shroom
   m_TagString: PowerUps
@@ -165,3 +166,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c01e9e5e9be6987489f75a0717591a57, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  XVel: -4
+--- !u!114 &4533034296999286203
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5108436040950913588}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c7fae3bbcd090134181b330ffdc9a3cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pickUpType: 1

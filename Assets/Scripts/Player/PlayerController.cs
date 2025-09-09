@@ -10,7 +10,7 @@ public class PlayerController : MonoBehaviour
 {
 
     private int _score = 0;
-    private int _lives = 3;
+
     private float jumpForce = 6f;
 
     private Coroutine jumpForceChange = null;
@@ -52,28 +52,10 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    public int lives
-    {
-        get => _lives;
-        set
-        {
-            if (value < 0)
-            {
-                Debug.Log("Game Over");
-                _lives = 0;
-            }
-            else if (value > maxLives)
-            {
-                _lives = maxLives;
-            }
-            else
-            {
-                _lives = value;
-            }
-        }
-    }
+   
 
-        public int maxLives = 9;
+
+        public int maxLives = 9;    
    
 
     //private Transform groundCheckPos;//
@@ -177,6 +159,7 @@ public class PlayerController : MonoBehaviour
         {
             Physics2D.IgnoreCollision(col, collision.collider);
         }
+        
     }
 
     void SpriteFlip(float hValue)

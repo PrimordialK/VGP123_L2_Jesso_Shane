@@ -5,24 +5,28 @@ public class CameraFollow : MonoBehaviour
     [SerializeField] private float minXpos;
     [SerializeField] private float maxXpos;
 
-    [SerializeField] private Transform target;
+    private Transform player;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    private void Awake()
     {
-        if (!target)
-        { Debug.LogError("Target not set for CameraFollow script! Please assign a target in the inspector."); }
-        
-     
-        
+        //player = GameManager.Instance.playerInstance.transform;
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (!target) return;
-
-        Vector3 pos = transform.position;
-        pos.x = Mathf.Clamp(target.position.x, minXpos, maxXpos);
-        transform.position = pos;
+        if (player == null)
+        {
+            GameObject playerObj = GameObject.FindGameObjectWithTag("Player");
+            if (playerObj != null)
+                player = playerObj.transform;
+        }
+        if (player != null)
+        {
+            Vector3 pos = transform.position;
+            pos.x = Mathf.Clamp(player.position.x, minXpos, maxXpos);
+            transform.position = pos;
+        }
     }
 }

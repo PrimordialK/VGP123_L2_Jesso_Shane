@@ -22,34 +22,20 @@ public class Projectile : MonoBehaviour
         if (projectileType == ProjectileType.Player && collision.gameObject.CompareTag("Enemy"))
         {
             Enemy enemy = collision.gameObject.GetComponent<Enemy>();
-            if (enemy!= null)
+            if (enemy != null)
             {
                 enemy.TakeDamage(10);
                 Destroy(gameObject);
             }
         }
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        foreach (var tag in ignoreTags)
+
+        if (projectileType == ProjectileType.Enemy && collision.gameObject.CompareTag("Player"))
         {
-            if (collision.gameObject.CompareTag("Colliders"))
-            {
-                return; // Ignore collision with specified tags
-            }
-
-            Destroy(gameObject); // Destroy the projectile on collision
-
-
+                GameManager.Instance.lives--;
+                Debug.Log("Player hit! Lives left: " + GameManager.Instance.lives);
+                Destroy(gameObject);
+            
         }
-
-        
     }
     public enum ProjectileType
     { 

@@ -1,4 +1,4 @@
-using UnityEditor.Animations;
+
 using UnityEngine;
 
 
@@ -47,7 +47,7 @@ public class EnemyWalkRange : Enemy
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        Debug.Log($"Triggered with: {collision.gameObject.name}, Tag: {collision.tag}");
+        
         if (collision.CompareTag("Barriers"))
         {
             anim.SetTrigger("Turn");

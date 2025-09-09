@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 4000350740390693427}
   - component: {fileID: 469144252172525548}
   - component: {fileID: 2663283474995249226}
-  - component: {fileID: 2644450363810288989}
+  - component: {fileID: -811691446910111698}
   m_Layer: 10
   m_Name: Turtle Coin
   m_TagString: PowerUps
@@ -152,8 +152,8 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 4
---- !u!114 &2644450363810288989
+  m_Constraints: 0
+--- !u!114 &-811691446910111698
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -165,4 +165,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c7fae3bbcd090134181b330ffdc9a3cb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pickUpType: 2
+  pickUpType: 1
