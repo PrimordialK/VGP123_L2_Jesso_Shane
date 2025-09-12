@@ -1,24 +1,34 @@
-using System;
 using UnityEngine;
+using System;
+using UnityEngine.Events;
 using UnityEngine.SceneManagement;
+using UnityEngine.Audio;
 
+
+[DefaultExecutionOrder(-10)]
 public class GameManager : MonoBehaviour
 {
+    public AudioMixerGroup masterMixerGroup;
+    public AudioMixerGroup musicMixerGroup;
+    public AudioMixerGroup sfxMixerGroup;
 
-    public delegate PlayerController PlayerSpawnDelegate(PlayerController playerInstance);
-    
-        
 
-    #region PlayerControllerInformation
+    public delegate void PlayerSpawnDelegate(PlayerController playerInstance);
+    public event PlayerSpawnDelegate OnPlayerControllerCreated;
+
+    #region Player Controller Information
     public PlayerController playerPrefab;
     private PlayerController _playerInstance;
     public PlayerController playerInstance => _playerInstance;
-    private Vector3 currentCheckPoint;
+    private Vector3 currentCheckpoint;
     #endregion
+
     public event Action<int> OnLivesChanged;
+
     #region Stats
     private int _lives = 3;
     private int _score = 0;
+
     public int score
     {
         get => _score;
@@ -30,7 +40,6 @@ public class GameManager : MonoBehaviour
                 _score = value;
         }
     }
-
     public int lives
     {
         get => _lives;
@@ -38,18 +47,18 @@ public class GameManager : MonoBehaviour
         {
             if (value < 0)
             {
-                Debug.Log("Game Over");
+                //gameover goes here
+                Debug.Log("Game Over! You have no lives left.");
+                GameOver();
                 _lives = 0;
-                SceneManager.LoadScene(2);
-
             }
-           
             else if (value < _lives)
             {
+                //play hurt sound
+                Debug.Log("Lost a life ");
                 Respawn();
-                Debug.Log("You lost a Life");
+
                 _lives = value;
-               
             }
             else if (value > maxLives)
             {
@@ -59,9 +68,9 @@ public class GameManager : MonoBehaviour
             {
                 _lives = value;
             }
-            if (_lives == 0)
-            
-        } 
+            Debug.Log($"Lives: {_lives}");
+            OnLivesChanged?.Invoke(_lives);
+        }
     }
 
     public int maxLives = 9;
@@ -73,36 +82,43 @@ public class GameManager : MonoBehaviour
 
     private void Awake()
     {
-        if (_instance == null) // corrected: == instead of =
+        if (_instance == null)
         {
             _instance = this;
             DontDestroyOnLoad(gameObject);
+            return;
         }
-        else
-        {
-            Destroy(gameObject);
-        }
+
+        Destroy(gameObject);
     }
     #endregion
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        
+
+    }
+
+    void GameOver()
+    {
+        SceneManager.LoadScene(2);
     }
 
     void Respawn()
     {
         if (_playerInstance != null)
         {
-            Destroy(_playerInstance.gameObject);
+        Destroy(_playerInstance.gameObject);
         }
-        _playerInstance = Instantiate(playerPrefab, currentCheckPoint, Quaternion.identity);
+        _playerInstance = Instantiate(playerPrefab, currentCheckpoint, Quaternion.identity);
+        if (OnPlayerControllerCreated != null) OnPlayerControllerCreated.Invoke(_playerInstance);
     }
 
-    public void StartLevel(Vector3 startPosition)
+    public void StartLevel(Vector3 startPositon)
     {
-        currentCheckPoint = startPosition;
-        _playerInstance = Instantiate(playerPrefab, currentCheckPoint, Quaternion.identity);
+        currentCheckpoint = startPositon;
+        _playerInstance = Instantiate(playerPrefab, currentCheckpoint, Quaternion.identity);
+        OnPlayerControllerCreated?.Invoke(_playerInstance);
     }
 
     // Update is called once per frame
@@ -110,20 +126,16 @@ public class GameManager : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Escape))
         {
-           if (SceneManager.GetActiveScene().buildIndex == 0)
+            int buildIndex = SceneManager.GetActiveScene().buildIndex;
+            if (buildIndex == 0)
             {
                 SceneManager.LoadScene(1);
-            }
-           else if (SceneManager.GetActiveScene().buildIndex == 2)
-            {
-                SceneManager.LoadScene(0);
             }
             else
             {
                 SceneManager.LoadScene(0);
             }
         }
-        
     }
+    public void StartGame() => SceneManager.LoadScene(1);
 }
-

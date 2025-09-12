@@ -1,51 +1,62 @@
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
-public class PickUps : MonoBehaviour
+public class Pickups : MonoBehaviour
 {
-
-    public enum PickUpType
+    public enum PickupType
     {
         Life = 0,
         Score = 1,
-        PowerUp = 2
+        Powerup = 2,
+            Grow= 3
     }
 
-    public PickUpType pickUpType = PickUpType.Life;
+    public AudioClip pickupSound; // Sound to play on pickup
+    private AudioSource audioSource;
+
+    public PickupType pickupType = PickupType.Life; // Type of the pickup
+
     void Start()
     {
-        // Optional: You can initialize anything here if needed
+        if (pickupSound != null)
+        {
+            TryGetComponent(out audioSource);
+            if (audioSource == null)
+            {
+                audioSource = gameObject.AddComponent<AudioSource>();
+                audioSource.outputAudioMixerGroup = GameManager.Instance.sfxMixerGroup;
+                Debug.LogWarning("AudioSource component missing. Added one dynamically.");
+            }
+        }
     }
 
-    void Update()
-    {
-        // Optional: You can add any update logic here if needed
-    }
-
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.CompareTag("Player"))
+        if (collision.CompareTag("Player"))
         {
-            Debug.Log("PickUp collected: " + pickUpType);
+            audioSource?.PlayOneShot(pickupSound);
 
-            switch (pickUpType)
+            
+
+            switch (pickupType)
             {
-                case PickUpType.Life:
+                case PickupType.Life:
                     GameManager.Instance.lives++;
-                    Debug.Log("Player Lives: " + GameManager.Instance.lives);
+                    //Debug.Log("Lives: ");
                     break;
-                case PickUpType.Score:
+                case PickupType.Score:
                     GameManager.Instance.score++;
                     Debug.Log("Score collected! Current score: " + GameManager.Instance.score);
                     break;
-                case PickUpType.PowerUp:
-                   // pc.ActivateJumpForceChange();
+                case PickupType.Powerup:
+                    PlayerController pc = collision.GetComponent<PlayerController>();
+                    pc.ActivateJumpForceChange();
+                    Debug.Log("Powerup collected! Jump force increased temporarily.");  
                     break;
-               
+                
             }
-            
-            Destroy(gameObject); // Destroy the power-up on collision with the player
+           
+            Destroy(gameObject); // Destroy the pickup after collection
         }
     }
 }
-

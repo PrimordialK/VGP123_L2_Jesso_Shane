@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 469144252172525548}
   - component: {fileID: 2663283474995249226}
   - component: {fileID: 1460080402037542055}
+  - component: {fileID: 3378108691483689860}
   m_Layer: 10
   m_Name: Grow Shroom
   m_TagString: PowerUps
@@ -165,4 +166,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c7fae3bbcd090134181b330ffdc9a3cb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pickUpType: 0
+  pickupSound: {fileID: 0}
+  pickupType: 3
+--- !u!114 &3378108691483689860
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5108436040950913588}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0ffc967d03119ba4d9e5f83e8fd10cc7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pickupSound: {fileID: 0}

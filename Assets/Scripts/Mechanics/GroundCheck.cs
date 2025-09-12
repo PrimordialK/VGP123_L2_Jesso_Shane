@@ -19,7 +19,7 @@ public class GroundCheck
     }
     public void CheckIsGrounded()
     {
-        if (!isGrounded && rb.linearVelocityY < 0)
+        if (!isGrounded && rb.linearVelocityY <= 0)
         {
             isGrounded = Physics2D.OverlapCircle(groundCheckPos, groundCheckRadius, groundLayer);
         }

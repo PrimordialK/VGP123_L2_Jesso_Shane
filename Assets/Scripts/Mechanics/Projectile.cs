@@ -6,7 +6,7 @@ public class Projectile : MonoBehaviour
     [SerializeField] private ProjectileType projectileType = ProjectileType.Player;
     [SerializeField] private float gravityScale = 0.0f;
     [SerializeField, Range(0, 20)] private float lifetime = 1.0f;
-    [SerializeField] private string[] ignoreTags = { "Colliders" };
+    
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     private void Start()
     {

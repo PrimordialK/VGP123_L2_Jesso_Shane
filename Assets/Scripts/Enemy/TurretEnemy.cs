@@ -1,4 +1,5 @@
 using UnityEngine;
+using static UnityEngine.GraphicsBuffer;
 
 public class TurretEnemy : Enemy
 {
@@ -11,6 +12,7 @@ public class TurretEnemy : Enemy
     protected override void Start()
     {
         base.Start();
+        GameManager.Instance.OnPlayerControllerCreated += (playerController) => playerTransform = playerController.transform;
 
         if (fireRate <= 0)
         {

@@ -9,7 +9,7 @@ using System.Collections;
 public class PlayerController : MonoBehaviour
 {
 
-    private int _score = 0;
+    
 
     private float jumpForce = 6f;
 
@@ -35,22 +35,16 @@ public class PlayerController : MonoBehaviour
         Debug.Log($"Jump Force changed to {jumpForce} at {Time.time}");
         jumpForceChange = null;
     }
-    public int score
-    {
-        get => _score;
 
-        set
-        {
-            if (value < 0)
-            {
-                _score = 0;
-            }
-            else
-            {
-                _score = value;
-            }
-        }
+    public void ActivateGrow()
+    {
+        playerTransform.localScale = new Vector3(10f, 10f, 1f);
     }
+    public void DeactivateGrow()
+    {
+        playerTransform.localScale = new Vector3(1f, 1f, 1f);
+    }
+   
 
    
 

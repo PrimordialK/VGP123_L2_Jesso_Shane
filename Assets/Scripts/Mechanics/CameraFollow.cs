@@ -2,31 +2,35 @@ using UnityEngine;
 
 public class CameraFollow : MonoBehaviour
 {
-    [SerializeField] private float minXpos;
-    [SerializeField] private float maxXpos;
+    [SerializeField] private float minXPos;
+    [SerializeField] private float maxXPos;
 
-    private Transform player;
-
+     private Transform target;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
-    private void Awake()
+    void Start()
     {
-        //player = GameManager.Instance.playerInstance.transform;
-    }
+        GameManager.Instance.OnPlayerControllerCreated += (playerController) => target = playerController.transform;
 
-    // Update is called once per frame
+        // Immediately set target if player already exists
+        if (GameManager.Instance.playerInstance != null)
+        {
+            target = GameManager.Instance.playerInstance.transform;
+        }
+    }
+  
+    //private void PlayerControllerCreated(PlayerController playerInstance)
+    //{
+    //    target = playerInstance.transform;
+    //}
+
     void Update()
     {
-        if (player == null)
-        {
-            GameObject playerObj = GameObject.FindGameObjectWithTag("Player");
-            if (playerObj != null)
-                player = playerObj.transform;
-        }
-        if (player != null)
-        {
-            Vector3 pos = transform.position;
-            pos.x = Mathf.Clamp(player.position.x, minXpos, maxXpos);
-            transform.position = pos;
-        }
+        if (!target) return;
+
+        Vector3 pos = transform.position;
+        pos.x = Mathf.Clamp(target.position.x, minXPos, maxXPos);
+        transform.position = pos;
+
+        
     }
 }
