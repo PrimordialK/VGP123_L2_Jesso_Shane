@@ -23,17 +23,27 @@ public class CanvasManager : MonoBehaviour
     [Header("Text Elements")]
     public TMP_Text livesText;
 
+    private bool isPaused = false;
+   
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        if (playButton) playButton.onClick.AddListener(() => SceneManager.LoadScene(1));
+        if (playButton) playButton.onClick.AddListener(() => {
+            Time.timeScale = 1f; // Unpause the game
+            SceneManager.LoadScene(1);
+        });
         if (settingsButton) settingsButton.onClick.AddListener(() => SetMenus(settingsPanel, mainMenuPanel));
         if (backButton) backButton.onClick.AddListener(() => SetMenus(mainMenuPanel, settingsPanel));
-
+        if (backButton) backButton.onClick.AddListener(() => SetMenus(pauseMenuPanel, settingsPanel));
+        if (settingsButton) settingsButton.onClick.AddListener(() => SetMenus(settingsPanel, pauseMenuPanel));
         if (quitButton) quitButton.onClick.AddListener(QuitGame);
+        if (resumeGame) resumeGame.onClick.AddListener(() => {
+            isPaused = false;
+            Time.timeScale = 1f;
+            SetMenus(null, pauseMenuPanel);
+            });
 
-        if (resumeGame) resumeGame.onClick.AddListener(() => SetMenus(null, pauseMenuPanel));
         if (returnToMenu) returnToMenu.onClick.AddListener(() => SceneManager.LoadScene(0));
 
         if (livesText)
@@ -42,6 +52,9 @@ public class CanvasManager : MonoBehaviour
             GameManager.Instance.OnLivesChanged += (lives) => livesText.text = $"Lives: {lives}";
         }
     }
+
+
+    
 
 
     void SetMenus(GameObject menuToActivate, GameObject menuToDeactivate)
@@ -66,13 +79,17 @@ public class CanvasManager : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.P))
         {
-            if (pauseMenuPanel.activeSelf)
+            isPaused = !isPaused;
+
+            if (isPaused)
             {
-                SetMenus(null, pauseMenuPanel);
+                SetMenus(pauseMenuPanel, null);
+                Time.timeScale = 0f; // Freeze all time-based actions, including animations
             }
             else
             {
-                SetMenus(pauseMenuPanel, null);
+                SetMenus(null, pauseMenuPanel);
+                Time.timeScale = 1f; // Resume all time-based actions
             }
         }
     }

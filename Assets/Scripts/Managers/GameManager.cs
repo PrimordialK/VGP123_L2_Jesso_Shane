@@ -124,18 +124,18 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Escape))
-        {
-            int buildIndex = SceneManager.GetActiveScene().buildIndex;
-            if (buildIndex == 0)
-            {
-                SceneManager.LoadScene(1);
-            }
-            else
-            {
-                SceneManager.LoadScene(0);
-            }
-        }
+        //if (Input.GetKeyDown(KeyCode.Escape))
+        //{
+        //    int buildIndex = SceneManager.GetActiveScene().buildIndex;
+        //    if (buildIndex == 0)
+        //    {
+        //        SceneManager.LoadScene(1);
+        //    }
+        //    else
+        //    {
+        //        SceneManager.LoadScene(0);
+        //    }
+        //}
     }
     public void StartGame() => SceneManager.LoadScene(1);
 }

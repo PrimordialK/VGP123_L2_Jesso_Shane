@@ -1,4 +1,3 @@
-
 using UnityEngine;
 using System.Collections;
 
@@ -94,6 +93,9 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+
+        
+
         float vValue = Input.GetAxis("Vertical");
         float hValue = Input.GetAxis("Horizontal");
         AnimatorStateInfo currentState = anim.GetCurrentAnimatorStateInfo(0);
@@ -104,6 +106,12 @@ public class PlayerController : MonoBehaviour
         float moveSpeed = isCrouching ? 0f : 5f;
         rb.linearVelocityX = hValue * moveSpeed;
         groundCheck.CheckIsGrounded();
+        
+        
+                    
+
+     
+        
 
         if (!currentState.IsName("Fire") && Input.GetButtonDown("Fire1"))
         {
