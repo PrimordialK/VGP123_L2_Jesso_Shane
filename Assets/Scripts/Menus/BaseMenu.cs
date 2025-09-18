@@ -4,7 +4,9 @@ public enum MenuStates
 {
     MainMenu,
     Settings,
-    Pause
+    Pause,
+    Audio,
+    Controls
 }
 
 public class BaseMenu : MonoBehaviour

@@ -28,6 +28,7 @@ public abstract class PickUp : MonoBehaviour
         if (collision.CompareTag("Player"))
         {
             OnPickup();
+           
             Destroy(gameObject); // Destroy the pickup after it has been collected
         }
     }

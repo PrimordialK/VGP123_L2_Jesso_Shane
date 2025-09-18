@@ -3,6 +3,9 @@ using UnityEngine;
 [RequireComponent(typeof(SpriteRenderer), typeof(Animator))]
 public class Enemy : MonoBehaviour
 {
+    public AudioClip deathSound;
+    private AudioSource audioSource;
+
     protected SpriteRenderer sr;
     protected Animator anim;
     protected int health;
@@ -11,6 +14,18 @@ public class Enemy : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     protected virtual void Start()
     {
+
+        if (deathSound != null)
+        {
+
+            TryGetComponent(out audioSource);
+
+            if (audioSource == null)
+            {
+                audioSource = gameObject.AddComponent<AudioSource>();
+                Debug.Log("AudioSource component was missing. Added one dynamically.");
+            }
+        }
         sr = GetComponent<SpriteRenderer>();
         anim = GetComponent<Animator>();
 
@@ -32,9 +47,18 @@ public class Enemy : MonoBehaviour
             anim.SetTrigger("Death");
 
             if (transform.parent != null)
-                Destroy(transform.parent.gameObject, 0.5f);
+            {
+                GetComponent<SpriteRenderer>().enabled = false;
+                GetComponent<Collider2D>().enabled = false;
+                Destroy(transform.parent.gameObject, 5.0f);
+            }                
             else
-                Destroy(gameObject, 0.5f);
+            {
+                GetComponent<SpriteRenderer>().enabled = false;
+                GetComponent<Collider2D>().enabled = false;
+                Destroy(gameObject, 5.0f);
+            }
+            audioSource?.PlayOneShot(deathSound);
         }
     }
 }

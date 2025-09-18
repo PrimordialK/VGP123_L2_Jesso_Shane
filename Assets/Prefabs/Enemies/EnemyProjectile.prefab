@@ -191,5 +191,4 @@ MonoBehaviour:
   projectileType: 1
   gravityScale: 0
   lifetime: 1
-  ignoreTags:
-  - Colliders
+  deathSound: {fileID: 8300000, guid: f55a95df4cea60f4383c948f3b20aeb9, type: 3}

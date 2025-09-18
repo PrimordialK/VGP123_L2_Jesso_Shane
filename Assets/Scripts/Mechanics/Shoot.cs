@@ -3,7 +3,10 @@ using UnityEngine;
 
 public class Shoot : MonoBehaviour
 {
+    public AudioClip shootSound;
+
     private SpriteRenderer sr;
+    private AudioSource audioSource;
     [SerializeField] private Vector2 initShotVelocity = Vector2.zero;
     [SerializeField] private Transform leftSpawn;
     [SerializeField] private Transform rightSpawn;
@@ -13,6 +16,18 @@ public class Shoot : MonoBehaviour
     void Start()
     {
         sr = GetComponent<SpriteRenderer>();
+
+        if (shootSound != null)
+        {
+
+            TryGetComponent(out audioSource);
+
+            if (audioSource == null)
+            {
+                audioSource = gameObject.AddComponent<AudioSource>();
+                Debug.Log("AudioSource component was missing. Added one dynamically.");
+            }
+        }
 
         if (initShotVelocity == Vector2.zero)
         {
@@ -40,6 +55,7 @@ public class Shoot : MonoBehaviour
             curProjectile = Instantiate(projectilePrefab, leftSpawn.position, Quaternion.identity);
             curProjectile.SetVelocity(-initShotVelocity);
         }
+        audioSource?.PlayOneShot(shootSound);
     }
 }
 

@@ -1,8 +1,9 @@
-using UnityEngine;
 using System;
+using Unity.VisualScripting;
+using UnityEngine;
+using UnityEngine.Audio;
 using UnityEngine.Events;
 using UnityEngine.SceneManagement;
-using UnityEngine.Audio;
 
 
 [DefaultExecutionOrder(-10)]
@@ -11,6 +12,9 @@ public class GameManager : MonoBehaviour
     public AudioMixerGroup masterMixerGroup;
     public AudioMixerGroup musicMixerGroup;
     public AudioMixerGroup sfxMixerGroup;
+
+    public AudioClip deathSound;
+    private AudioSource audioSource;
 
 
     public delegate void PlayerSpawnDelegate(PlayerController playerInstance);
@@ -47,17 +51,18 @@ public class GameManager : MonoBehaviour
         {
             if (value < 0)
             {
-                //gameover goes here
                 Debug.Log("Game Over! You have no lives left.");
                 GameOver();
                 _lives = 0;
             }
             else if (value < _lives)
             {
-                //play hurt sound
+                // Play death sound from GameManager's AudioSource
+                if (deathSound != null && audioSource != null)
+                    audioSource.PlayOneShot(deathSound);
+
                 Debug.Log("Lost a life ");
                 Respawn();
-
                 _lives = value;
             }
             else if (value > maxLives)
@@ -73,6 +78,8 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    
+
     public int maxLives = 9;
     #endregion
 
@@ -86,9 +93,15 @@ public class GameManager : MonoBehaviour
         {
             _instance = this;
             DontDestroyOnLoad(gameObject);
+
+            // Ensure AudioSource exists and is routed to SFX mixer group
+            audioSource = GetComponent<AudioSource>();
+            if (audioSource == null)
+                audioSource = gameObject.AddComponent<AudioSource>();
+            if (sfxMixerGroup != null)
+                audioSource.outputAudioMixerGroup = sfxMixerGroup;
             return;
         }
-
         Destroy(gameObject);
     }
     #endregion
@@ -108,15 +121,29 @@ public class GameManager : MonoBehaviour
     {
         if (_playerInstance != null)
         {
-        Destroy(_playerInstance.gameObject);
+           
+            Destroy(_playerInstance.gameObject);
         }
-        _playerInstance = Instantiate(playerPrefab, currentCheckpoint, Quaternion.identity);
-        if (OnPlayerControllerCreated != null) OnPlayerControllerCreated.Invoke(_playerInstance);
+        StartCoroutine(RespawnAfterDelay(4f));
     }
 
-    public void StartLevel(Vector3 startPositon)
+    private System.Collections.IEnumerator RespawnAfterDelay(float delay)
     {
-        currentCheckpoint = startPositon;
+        yield return new WaitForSeconds(delay);
+        _playerInstance = Instantiate(playerPrefab, currentCheckpoint, Quaternion.identity);
+        OnPlayerControllerCreated?.Invoke(_playerInstance);
+    }
+
+    public void StartLevel(Vector3 startPosition)
+    {
+        currentCheckpoint = startPosition;
+
+        // Prevent duplicate player instances
+        if (_playerInstance != null)
+        {
+            Destroy(_playerInstance.gameObject);
+        }
+
         _playerInstance = Instantiate(playerPrefab, currentCheckpoint, Quaternion.identity);
         OnPlayerControllerCreated?.Invoke(_playerInstance);
     }
@@ -124,6 +151,8 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+       
+       
         //if (Input.GetKeyDown(KeyCode.Escape))
         //{
         //    int buildIndex = SceneManager.GetActiveScene().buildIndex;
@@ -138,4 +167,26 @@ public class GameManager : MonoBehaviour
         //}
     }
     public void StartGame() => SceneManager.LoadScene(1);
+
+    // Add this in your GameManager class
+
+    void OnEnable()
+    {
+        SceneManager.sceneLoaded += OnSceneLoaded;
+    }
+
+    void OnDisable()
+    {
+        SceneManager.sceneLoaded -= OnSceneLoaded;
+    }
+
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        if (scene.buildIndex == 1)
+        {
+            Time.timeScale = 1f;
+
+
+        }
+    }
 }

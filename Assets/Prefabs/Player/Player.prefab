@@ -179,6 +179,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9e9195fe320513e48a6efb285ea5898b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  jumpSound: {fileID: 8300000, guid: e3ca3cd140a989947934cdf8e831eb0f, type: 3}
+  squishSound: {fileID: 8300000, guid: 3dac1aa1c5c1eee4eb518a4b0793e6c8, type: 3}
+  poweredJumpSound: {fileID: 8300000, guid: ee538f05b88776447951846d02a4ace6, type: 3}
   maxLives: 9
   groundCheckRadius: 0.02
   playerTransform: {fileID: 0}
@@ -217,6 +220,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fda3c2a2f7b397e41a31053301809b8c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  shootSound: {fileID: 8300000, guid: 1996b0f286562d648bff188a3a56c197, type: 3}
   initShotVelocity: {x: 10, y: 0}
   leftSpawn: {fileID: 5449016768455360039}
   rightSpawn: {fileID: 5747144569750447824}

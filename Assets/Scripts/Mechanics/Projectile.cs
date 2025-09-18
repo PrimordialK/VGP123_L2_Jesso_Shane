@@ -7,6 +7,9 @@ public class Projectile : MonoBehaviour
     [SerializeField] private float gravityScale = 0.0f;
     [SerializeField, Range(0, 20)] private float lifetime = 1.0f;
     
+
+    public AudioClip deathSound;
+    private AudioSource AudioSource;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     private void Start()
     {
@@ -32,8 +35,10 @@ public class Projectile : MonoBehaviour
         if (projectileType == ProjectileType.Enemy && collision.gameObject.CompareTag("Player"))
         {
                 GameManager.Instance.lives--;
-                Debug.Log("Player hit! Lives left: " + GameManager.Instance.lives);
-                Destroy(gameObject);
+            
+            Debug.Log("Player hit! Lives left: " + GameManager.Instance.lives);
+            
+            Destroy(gameObject);
             
         }
     }

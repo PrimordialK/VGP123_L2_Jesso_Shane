@@ -5,6 +5,10 @@ using TMPro;
 
 public class CanvasManager : MonoBehaviour
 {
+    public AudioClip pauseSound;
+    private AudioSource audioSource;
+
+
     [Header("Buttons")]
     public Button playButton;
     public Button settingsButton;
@@ -29,6 +33,20 @@ public class CanvasManager : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        if (pauseSound != null)
+        {
+
+            TryGetComponent(out audioSource);
+
+            if (audioSource == null)
+            {
+                audioSource = gameObject.AddComponent<AudioSource>();
+                Debug.Log("AudioSource component was missing. Added one dynamically.");
+            }
+        }
+
+
+
         if (playButton) playButton.onClick.AddListener(() => {
             Time.timeScale = 1f; // Unpause the game
             SceneManager.LoadScene(1);
@@ -43,6 +61,7 @@ public class CanvasManager : MonoBehaviour
             Time.timeScale = 1f;
             SetMenus(null, pauseMenuPanel);
             });
+        
 
         if (returnToMenu) returnToMenu.onClick.AddListener(() => SceneManager.LoadScene(0));
 
@@ -79,6 +98,7 @@ public class CanvasManager : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.P))
         {
+            
             isPaused = !isPaused;
 
             if (isPaused)
@@ -91,6 +111,7 @@ public class CanvasManager : MonoBehaviour
                 SetMenus(null, pauseMenuPanel);
                 Time.timeScale = 1f; // Resume all time-based actions
             }
+            audioSource?.PlayOneShot(pauseSound);
         }
     }
 }

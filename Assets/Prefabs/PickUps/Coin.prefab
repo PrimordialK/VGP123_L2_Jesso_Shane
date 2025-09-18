@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 469144252172525548}
   - component: {fileID: 2663283474995249226}
   - component: {fileID: 5179444612304064665}
+  - component: {fileID: 1297731871146662944}
   m_Layer: 10
   m_Name: Coin
   m_TagString: PowerUps
@@ -165,5 +166,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c7fae3bbcd090134181b330ffdc9a3cb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pickupSound: {fileID: 0}
+  lifeSound: {fileID: 0}
+  coinSound: {fileID: 0}
   pickupType: 1
+--- !u!114 &1297731871146662944
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5108436040950913588}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f5e09f3353db30b4d834712092d213c8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pickupSound: {fileID: 8300000, guid: 6b7c95e802276754c8485f24033f7c11, type: 3}

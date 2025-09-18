@@ -1,5 +1,6 @@
-using UnityEngine;
 using System.Collections;
+using UnityEngine;
+using UnityEngine.Audio;
 
 
 
@@ -7,8 +8,14 @@ using System.Collections;
 [RequireComponent(typeof(Animator))]
 public class PlayerController : MonoBehaviour
 {
+    public AudioClip jumpSound;
+    private AudioClip currentJumpSound;
+    public AudioClip squishSound;
+    public AudioClip poweredJumpSound;
 
-    
+
+
+    private AudioSource audioSource;
 
     private float jumpForce = 6f;
 
@@ -21,6 +28,7 @@ public class PlayerController : MonoBehaviour
             StopCoroutine(jumpForceChange);
             jumpForceChange = null;
             jumpForce = 6f; // Reset to default before starting again
+            currentJumpSound = jumpSound; // Reset to normal sound
         }
         jumpForceChange = StartCoroutine(JumpForceChangeRoutine());
 
@@ -28,9 +36,11 @@ public class PlayerController : MonoBehaviour
     private IEnumerator JumpForceChangeRoutine()
     {
         jumpForce = 12f;
+        currentJumpSound = poweredJumpSound; // Use powered jump sound
         Debug.Log($"Jump Force changed to {jumpForce} at {Time.time}");
         yield return new WaitForSeconds(5f);
         jumpForce = 6f;
+        currentJumpSound = jumpSound; // Revert to normal jump sound
         Debug.Log($"Jump Force changed to {jumpForce} at {Time.time}");
         jumpForceChange = null;
     }
@@ -88,7 +98,22 @@ public class PlayerController : MonoBehaviour
         }
         groundCheck = new GroundCheck(col, groundLayer, groundCheckRadius);
         initialGroundCheckRadius = groundCheckRadius;
+
+        if (jumpSound != null)
+        {
+
+            TryGetComponent(out audioSource);
+
+            if (audioSource == null)
+            {
+                audioSource = gameObject.AddComponent<AudioSource>();
+                Debug.Log("AudioSource component was missing. Added one dynamically.");
+            }
+        }
+        currentJumpSound = jumpSound;
     }
+
+   
 
     // Update is called once per frame
     void Update()
@@ -130,8 +155,9 @@ public class PlayerController : MonoBehaviour
         {
             rb.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
             jumpCount++;
-            Debug.Log("jumpCout: " + jumpCount);
+            audioSource?.PlayOneShot(currentJumpSound);
         }
+       
         if (groundCheck.IsGrounded)
             jumpCount = 1;
 
@@ -204,9 +230,11 @@ public class PlayerController : MonoBehaviour
             collision.GetComponentInParent<Enemy>().TakeDamage(0, DamageType.JumpedOn);
             rb.linearVelocity = Vector2.zero;
             rb.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
+            audioSource?.PlayOneShot(squishSound);
 
         }
     }
+  
 
 }
 

@@ -11,14 +11,25 @@ public class Pickups : MonoBehaviour
             Grow= 3
     }
 
-    public AudioClip pickupSound; // Sound to play on pickup
+    public AudioClip lifeSound;
+    public AudioClip coinSound;
     private AudioSource audioSource;
 
     public PickupType pickupType = PickupType.Life; // Type of the pickup
 
     void Start()
     {
-        if (pickupSound != null)
+        if (lifeSound != null)
+        {
+            TryGetComponent(out audioSource);
+            if (audioSource == null)
+            {
+                audioSource = gameObject.AddComponent<AudioSource>();
+                audioSource.outputAudioMixerGroup = GameManager.Instance.sfxMixerGroup;
+                Debug.LogWarning("AudioSource component missing. Added one dynamically.");
+            }
+        }
+        if (coinSound != null)
         {
             TryGetComponent(out audioSource);
             if (audioSource == null)
@@ -34,7 +45,6 @@ public class Pickups : MonoBehaviour
     {
         if (collision.CompareTag("Player"))
         {
-            audioSource?.PlayOneShot(pickupSound);
 
             
 
@@ -42,16 +52,19 @@ public class Pickups : MonoBehaviour
             {
                 case PickupType.Life:
                     GameManager.Instance.lives++;
+                    
                     //Debug.Log("Lives: ");
                     break;
                 case PickupType.Score:
                     GameManager.Instance.score++;
+                    
                     Debug.Log("Score collected! Current score: " + GameManager.Instance.score);
                     break;
                 case PickupType.Powerup:
                     PlayerController pc = collision.GetComponent<PlayerController>();
                     pc.ActivateJumpForceChange();
-                    Debug.Log("Powerup collected! Jump force increased temporarily.");  
+                    Debug.Log("Powerup collected! Jump force increased temporarily.");
+                    
                     break;
                 
             }
